@@ -1,0 +1,16 @@
+[package]
+name = "mandlebrot"
+version = "0.1.0"
+authors = ["AG <agibbison@pm.me>"]
+edition = "2018"
+publish = false
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+rand = "0.8.4"
+png = "0.16.8"
+
+[[bin]]
+name = "generateImage"
+bench = true
