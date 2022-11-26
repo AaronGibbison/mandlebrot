@@ -5,18 +5,27 @@ mod utility;
 mod mandelbrot;
 
 use file::img::*;
-use utility::benchmark;
 use mandelbrot::mandelbrot::*;
+use mandelbrot::escape::*;
 
-const FILE_SIZE: usize = 1024 * 1024;
-const SCALE: u8 = 10;
-const ACCURACY: u8 = 10;
+const FILE_SIZE_MB: usize = 1024 * 1024;
+const SCALE: u8 = 12;
+const ACCURACY: u8 = 15;
+
+const MAX_ITERATIONS: u32 = 1 << ACCURACY;
+
+const SIZE: usize = 1 << SCALE;
+const SIZE_X: usize = ((SIZE as f32) * 1.5) as usize;
+const SIZE_Y: usize = SIZE;
+const COLOUR_ARRAY_SIZE: usize = SIZE_Y * SIZE_X * 3;
+const COLOUR_ROW_SIZE: usize = SIZE_X * 3;
+type ColourArrayRow = [u8; COLOUR_ROW_SIZE];
 
 fn main() {
   println!("Generating Set");
   let time_generate_set = std::time::SystemTime::now();
-  let mandelbrot_set = generate_mandelbrot_parallel(SCALE, ACCURACY);
-  println!("{:?}, {}, {} MB", time_generate_set.elapsed(), mandelbrot_set.len(), mandelbrot_set.len() / FILE_SIZE);
+  let mandelbrot_set = gms_parallel3(escape_time_with_bulb_period);
+  println!("{:?}, {}, {} MB", time_generate_set.elapsed(), mandelbrot_set.len(), mandelbrot_set.len() / FILE_SIZE_MB);
 
   println!("About to write set to file");
   let new_png = Img {
@@ -27,6 +36,6 @@ fn main() {
   };
 
   let time_write_set = std::time::SystemTime::now();
-  write_png("res/mandelbrot.png", new_png).expect("Was unable to write png");
-  println!("Finished writing file. {:?}", time_write_set.elapsed());
+  // write_png("res/mandelbrot.png", new_png).expect("Was unable to write png");
+  println!("Finished# writing file. {:?}", time_write_set.elapsed());
 }

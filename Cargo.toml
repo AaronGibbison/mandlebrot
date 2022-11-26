@@ -9,8 +9,4 @@ publish = false
 
 [dependencies]
 rand = "0.8.4"
-png = "0.16.8"
-
-[[bin]]
-name = "generateImage"
-bench = true
+png = "0.17.7"

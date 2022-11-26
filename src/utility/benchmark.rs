@@ -1,5 +1,5 @@
 pub fn benchmark<T>(name: &str, algo: fn() -> T) {
-  const ITERATIONS: u32 = 100;
+  const ITERATIONS: u32 = 10;
 
   let now = std::time::SystemTime::now();
   print!("{:?} Executing {}... ", now, name);
